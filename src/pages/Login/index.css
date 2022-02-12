@@ -1,0 +1,33 @@
+.loginContainer{
+  width: 500px;
+  height: 300px;
+  margin: 150px auto 0;
+  box-shadow: 0 0 0 5px white;
+  border-radius: 5px;
+  background-color: #ebebeb;
+}
+
+.loginContainer > .avatar{
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+  bottom: 50px;
+  border: 5px solid white;
+  background-color: #ebebeb;
+  border-radius: 50%;
+}
+.avatar > img{
+  width: 100%;
+}
+
+.loginContainer > .loginForm{
+  margin: 0 30px;
+}
+
+.loginForm > .btns{
+  text-align: right;
+}
+.btns button:first-child{
+  margin-right: 20px;
+}
