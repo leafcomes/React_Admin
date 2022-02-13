@@ -1,0 +1,20 @@
+.logo {
+  height: 50px;
+  margin: 5px;
+  /* background: rgba(255, 255, 255, 0.3); */
+  text-align: center;
+  color: gray;
+  line-height: 0;
+  vertical-align: middle;
+}
+.logo >img{
+  height: 100%;
+  margin-right: 5px;
+}
+.site-layout .site-layout-background {
+  background: #fff;
+}
+.site-layout-header{
+  background-color: #001529;
+  text-align: right;
+}
