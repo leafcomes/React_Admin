@@ -1,0 +1,16 @@
+.primaryStyle{
+  background-color: #409eff!important;
+  color: white!important;
+  width: 45px!important;
+
+}
+.warningStyle{
+  background: #e6a23c!important;
+  color: white!important;
+  width: 45px!important;
+}
+.dangerStyle{
+  background-color: #f56c6c!important;
+  color: white!important;
+  width: 45px!important;
+}

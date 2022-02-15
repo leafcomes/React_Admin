@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import { Layout, Menu, Breadcrumb, message, Button } from "antd";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import "./index.css";
 import Logo from "../../images/logo.png";
+import Users from "../Users";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -33,9 +34,12 @@ export default class Home extends Component {
     this.setState({ collapsed });
   };
   onOpenChange = (key) => {
-    const openKeys = key.length <1 ? []:[key[key.length-1]]
-    this.setState({openKeys})
+    const openKeys = key.length < 1 ? [] : [key[key.length - 1]];
+    this.setState({ openKeys });
   };
+  onClick = (params) => {
+    console.log(params);
+  }
 
   logout = () => {
     window.sessionStorage.clear();
@@ -46,7 +50,6 @@ export default class Home extends Component {
     const { data: res } = await axios.get("menus");
     if (res.meta.status !== 200) return message.error(res.meta.msg);
     this.setState({ menuList: res.data });
-    
   };
 
   componentDidMount() {
@@ -70,6 +73,7 @@ export default class Home extends Component {
             mode="inline"
             openKeys={this.state.openKeys}
             onOpenChange={this.onOpenChange}
+            onClick={this.onClick}
           >
             {this.state.menuList.map((subMenu) => {
               return (
@@ -81,7 +85,7 @@ export default class Home extends Component {
                   {subMenu.children.map((menuItem) => {
                     return (
                       <Menu.Item key={menuItem.id} icon={<AppstoreOutlined />}>
-                        <Link to="/users">{menuItem.authName}</Link>
+                        <Link to={'/'+menuItem.path}>{menuItem.authName}</Link>
                       </Menu.Item>
                     );
                   })}
@@ -95,11 +99,21 @@ export default class Home extends Component {
             <Button onClick={this.logout}>退出登录</Button>
           </Header>
           <Content style={{ margin: "0 16px" }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item><Link to="/">首页</Link></Breadcrumb.Item>
+              <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+              <Breadcrumb.Item>用户列表</Breadcrumb.Item>
+            </Breadcrumb>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
+              style={{ padding: 12, minHeight: 360 }}
             >
-              欢迎登录电商管理系统
+              <Switch>
+                <Switch>
+                  <Route path="/users" component={Users}></Route>
+                </Switch>
+                <Route path="/users" component={Users}></Route>
+              </Switch>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
