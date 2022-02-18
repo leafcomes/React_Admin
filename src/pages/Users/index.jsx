@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   Button,
+  Tooltip,
   Table,
   Switch,
   Space,
@@ -18,9 +19,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import "./index.css";
 const { Search } = Input;
-const { confirm } = Modal;
 const { Option } = Select;
 export default class Users extends Component {
   addUserFormRef = React.createRef();
@@ -68,33 +67,33 @@ export default class Users extends Component {
       key: "operation",
       render: (text, record) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            className="primaryStyle"
-            title="修改用户"
-            onClick={() => {
-              this.showEditUserModal(record.id);
-            }}
-          />
-          <Button
-            icon={<SettingOutlined />}
-            title="分配角色"
-            className="warningStyle"
-            onClick={() => {
-              this.showSetRoleModal(record);
-            }}
-          />
+          <Tooltip title="修改用户" color="blue">
+            <Button
+              icon={<EditOutlined />}
+              className="primaryStyle"
+              onClick={() => {
+                this.showEditUserModal(record.id);
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="分配角色" color="orange">
+            <Button
+              icon={<SettingOutlined />}
+              className="warningStyle"
+              onClick={() => {
+                this.showSetRoleModal(record);
+              }}
+            />
+          </Tooltip>
           <Popconfirm
             title="此操作将永久删除用户，是否继续?"
             onConfirm={() => {
               this.removeUserById(record.id);
             }}
           >
-            <Button
-              icon={<DeleteOutlined />}
-              title="删除用户"
-              className="dangerStyle"
-            />
+            <Tooltip title="删除用户" color="red">
+              <Button icon={<DeleteOutlined />} className="dangerStyle" />
+            </Tooltip>
           </Popconfirm>
         </Space>
       ),
@@ -148,20 +147,23 @@ export default class Users extends Component {
     // 需要被分配角色的用户的信息
     userRoleInfo: {},
     // 所有角色的数据列表
-    rolesList: [],
+    roleList: [],
     selectedRoleId: "",
   };
 
   getUserList = async () => {
-    const { data: res } = await axios.get("users", {
-      params: this.state.queryInfo,
-    });
-    if (res.meta.status !== 200) {
-      return message.error("获取用户列表失败！");
+    try {
+      const { data: res } = await axios.get("users", {
+        params: this.state.queryInfo,
+      });
+      if (res.meta.status !== 200) {
+        return message.error("获取用户列表失败！");
+      }
+      this.setState({ userList: res.data.users });
+      this.setState({ userTotal: res.data.total });
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-
-    this.setState({ userList: res.data.users });
-    this.setState({ userTotal: res.data.total });
   };
   searchUser = (username) => {
     this.state.queryInfo.query = username;
@@ -170,14 +172,18 @@ export default class Users extends Component {
 
   // 监听Switch开关状态的变化
   onStateChange = async (userInfo, checked) => {
-    const { data: res } = await axios.put(
-      `users/${userInfo.id}/state/${checked}`
-    );
-    if (res.meta.status !== 200) {
-      return message.error("更新用户状态失败！");
+    try {
+      const { data: res } = await axios.put(
+        `users/${userInfo.id}/state/${checked}`
+      );
+      if (res.meta.status !== 200) {
+        return message.error("更新用户状态失败！");
+      }
+      this.getUserList();
+      message.success("更新用户状态成功！");
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-    this.getUserList();
-    message.success("更新用户状态成功！");
   };
   // 页码或pagesize改变时的回调函数
   onPageChange = (page, pagesize) => {
@@ -195,27 +201,34 @@ export default class Users extends Component {
     this.addUserFormRef.current
       .validateFields()
       .then(async (value) => {
-        const { data: res } = await axios.post("users", value);
-        if (res.meta.status !== 201) {
-          message.error("添加用户失败！");
-        }
+        try {
+          const { data: res } = await axios.post("users", value);
+          if (res.meta.status !== 201) {
+            message.error("添加用户失败！");
+          }
 
-        message.success("添加用户成功！");
-        // 隐藏添加用户的对话框
-        this.setState({ addUserModalVisible: false });
-        this.getUserList();
+          message.success("添加用户成功！");
+          // 隐藏添加用户的对话框
+          this.setState({ addUserModalVisible: false });
+          this.getUserList();
+        } catch (error) {
+          return message.error("网络出错，请稍后重试！");
+        }
       })
       .catch(() => {
         return;
       });
   };
   showEditUserModal = async (id) => {
-    
-    const { data: res } = await axios.get("users/" + id);
-    if (res.meta.status !== 200) {
-      return message.error("查询用户信息失败！");
+    try {
+      const { data: res } = await axios.get("users/" + id);
+      if (res.meta.status !== 200) {
+        return message.error("查询用户信息失败！");
+      }
+      this.setState({ editUserModalVisible: true, editUserForm: res.data });
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-    this.setState({ editUserModalVisible: true, editUserForm: res.data });
   };
   editUserModalClosed = () => {
     // this.editUserFormRef.current.resetFields([{
@@ -225,25 +238,28 @@ export default class Users extends Component {
     this.setState({ editUserModalVisible: false });
   };
   editUser = () => {
-    
     this.editUserFormRef.current
       .validateFields()
       .then(async (value) => {
-        // 发起修改用户信息的数据请求
-        const { data: res } = await axios.put(
-          "users/" + this.state.editUserForm.id,
-          {
-            email: value.email,
-            mobile: value.mobile,
+        try {
+          // 发起修改用户信息的数据请求
+          const { data: res } = await axios.put(
+            "users/" + this.state.editUserForm.id,
+            {
+              email: value.email,
+              mobile: value.mobile,
+            }
+          );
+          if (res.meta.status !== 200) {
+            return message.error("更新用户信息失败！");
           }
-        );
-        if (res.meta.status !== 200) {
-          return message.error("更新用户信息失败！");
+          // 隐藏修改用户的对话框
+          this.setState({ editUserModalVisible: false });
+          this.getUserList();
+          message.success("更新用户信息成功");
+        } catch (error) {
+          return message.error("网络出错，请稍后重试！");
         }
-        // 隐藏修改用户的对话框
-        this.setState({ editUserModalVisible: false });
-        this.getUserList();
-        message.success("更新用户信息成功");
       })
       .catch(() => {
         return;
@@ -251,26 +267,31 @@ export default class Users extends Component {
   };
 
   removeUserById = async (id) => {
-    
-    
-    const { data: res } = await axios.delete("users/" + id);
-    if (res.meta.status !== 200) {
-      return message.error("删除用户失败！");
+    try {
+      const { data: res } = await axios.delete("users/" + id);
+      if (res.meta.status !== 200) {
+        return message.error("删除用户失败！");
+      }
+      message.success("删除用户成功！");
+      this.getUserList();
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-    message.success("删除用户成功！");
-    this.getUserList();
   };
 
   showSetRoleModal = async (userInfo) => {
-    this.state.userRoleInfo = userInfo;
-    // 在展示对话框之前，获取所有角色的列表
-    const { data: res } = await axios.get("roles");
-    if (res.meta.status !== 200) {
-      return message.error("获取角色列表失败！");
+    try {
+      this.state.userRoleInfo = userInfo;
+      // 在展示对话框之前，获取所有角色的列表
+      const { data: res } = await axios.get("roles");
+      if (res.meta.status !== 200) {
+        return message.error("获取角色列表失败！");
+      }
+      this.state.roleList = res.data;
+      this.setState({ setRoleModalVisible: true });
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-    this.state.rolesList = res.data;
-    
-    this.setState({ setRoleModalVisible: true });
   };
 
   setRoleModalClosed = (params) => {
@@ -283,19 +304,22 @@ export default class Users extends Component {
     if (!this.state.selectedRoleId) {
       return message.error("请选择要分配的角色！");
     }
-    const { data: res } = await axios.put(
-      `users/${this.state.userRoleInfo.id}/role`,
-      {
-        rid: this.state.selectedRoleId,
+    try {
+      const { data: res } = await axios.put(
+        `users/${this.state.userRoleInfo.id}/role`,
+        {
+          rid: this.state.selectedRoleId,
+        }
+      );
+      if (res.meta.status !== 200) {
+        return message.error("更新用户角色失败！");
       }
-    );
-    if (res.meta.status !== 200) {
-      return message.error("更新用户角色失败！");
+      message.success("更新用户角色成功！");
+      this.getUserList();
+      this.setState({ setRoleModalVisible: false });
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-
-    message.success("更新用户角色成功！");
-    this.getUserList();
-    this.setState({setRoleModalVisible: false})
   };
   componentDidMount() {
     this.getUserList();
@@ -303,7 +327,7 @@ export default class Users extends Component {
   render() {
     return (
       <>
-        <Space direction="vertical" style={{width: '100%'}}>
+        <Space direction="vertical" style={{ width: "100%" }}>
           <Space size="large">
             <Search
               size="large"
@@ -421,8 +445,12 @@ export default class Users extends Component {
             <p>当前的用户：{this.state.userRoleInfo.username}</p>
             <p>当前的角色：{this.state.userRoleInfo.role_name}</p>
             <span>分配新角色：</span>
-            <Select style={{ width: 120 }} onSelect={this.saveUserRoleId} placeholder="请选择">
-              {this.state.rolesList.map((role) => {
+            <Select
+              style={{ width: 120 }}
+              onSelect={this.saveUserRoleId}
+              placeholder="请选择"
+            >
+              {this.state.roleList.map((role) => {
                 return <Option key={role.id}>{role.roleName}</Option>;
               })}
             </Select>

@@ -14,14 +14,17 @@ export default class Login extends Component {
     this.formRef.current.resetFields();
   };
   onFinish = async (value) => {
-    const { data: res } = await axios.post("/login", value);
-    if (res.meta.status !== 200) {
-      message.error("用户名或密码错误");
-      return;
+    try {
+      const { data: res } = await axios.post("/login", value);
+      if (res.meta.status !== 200) {
+        return message.error("用户名或密码错误");
+      }
+      message.success("登录成功");
+      window.sessionStorage.setItem("token", res.data.token);
+      this.props.history.push("/");
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
     }
-    message.success("登录成功");
-    window.sessionStorage.setItem("token", res.data.token);
-    this.props.history.push("/");
   };
 
   render() {

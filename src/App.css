@@ -1,0 +1,19 @@
+/* 设置Button组件的相关样式 */
+.primaryStyle{
+  background-color: #409eff!important;
+  color: white!important;
+
+}
+.warningStyle{
+  background: #e6a23c!important;
+  color: white!important;
+}
+.dangerStyle{
+  background-color: #f56c6c!important;
+  color: white!important;
+}
+
+.ant-tag{
+  margin: 8px;
+  padding: 8px;
+}

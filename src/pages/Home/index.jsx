@@ -11,9 +11,10 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import "./index.css";
+import PrivateRoute from "../../components/PrivateRoute";
 import Logo from "../../images/logo.png";
 import Users from "../Users";
-
+import Roles from "../Roles";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -39,7 +40,7 @@ export default class Home extends Component {
   };
   onClick = (params) => {
     console.log(params);
-  }
+  };
 
   logout = () => {
     window.sessionStorage.clear();
@@ -47,9 +48,13 @@ export default class Home extends Component {
     message.info("退出成功");
   };
   getMenuList = async (params) => {
-    const { data: res } = await axios.get("menus");
-    if (res.meta.status !== 200) return message.error(res.meta.msg);
-    this.setState({ menuList: res.data });
+    try {
+      const { data: res } = await axios.get("menus");
+      if (res.meta.status !== 200) return message.error(res.meta.msg);
+      this.setState({ menuList: res.data });
+    } catch (error) {
+      return message.error("网络出错，请稍后重试！");
+    }
   };
 
   componentDidMount() {
@@ -85,7 +90,9 @@ export default class Home extends Component {
                   {subMenu.children.map((menuItem) => {
                     return (
                       <Menu.Item key={menuItem.id} icon={<AppstoreOutlined />}>
-                        <Link to={'/'+menuItem.path}>{menuItem.authName}</Link>
+                        <Link to={"/" + menuItem.path}>
+                          {menuItem.authName}
+                        </Link>
                       </Menu.Item>
                     );
                   })}
@@ -99,8 +106,10 @@ export default class Home extends Component {
             <Button onClick={this.logout}>退出登录</Button>
           </Header>
           <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item><Link to="/">首页</Link></Breadcrumb.Item>
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>
+                <Link to="/">首页</Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>用户管理</Breadcrumb.Item>
               <Breadcrumb.Item>用户列表</Breadcrumb.Item>
             </Breadcrumb>
@@ -110,7 +119,8 @@ export default class Home extends Component {
             >
               <Switch>
                 <Switch>
-                  <Route path="/users" component={Users}></Route>
+                  <PrivateRoute path="/users" component={Users}></PrivateRoute>
+                  <PrivateRoute path="/roles" component={Roles}></PrivateRoute>
                 </Switch>
                 <Route path="/users" component={Users}></Route>
               </Switch>
