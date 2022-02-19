@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Route,Switch,Redirect} from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import 'antd/dist/antd.min.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import 'antd/dist/antd.min.css';
 import './App.css'
 export default class App extends Component {
   render() {

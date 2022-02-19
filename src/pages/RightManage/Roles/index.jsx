@@ -19,7 +19,6 @@ import {
 import axios from "axios";
 
 const { confirm } = Modal;
-const { TreeNode } = Tree;
 export default class Roles extends Component {
   addRoleFormRef = React.createRef();
   editRoleFormRef = React.createRef();

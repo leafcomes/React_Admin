@@ -13,8 +13,9 @@ import {
 import "./index.css";
 import PrivateRoute from "../../components/PrivateRoute";
 import Logo from "../../images/logo.png";
-import Users from "../Users";
-import Roles from "../Roles";
+import Users from "../UserManage/Users";
+import Roles from "../RightManage/Roles";
+import Rights from "../RightManage/Rights";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -70,7 +71,6 @@ export default class Home extends Component {
         >
           <div className="logo">
             <img src={Logo} alt="" />
-            <span>电商后台管理系统</span>
           </div>
           <Menu
             theme="dark"
@@ -103,6 +103,7 @@ export default class Home extends Component {
         </Sider>
         <Layout className="site-layout">
           <Header className="site-layout-header" style={{ padding: 0 }}>
+            <span>电商后台管理系统</span>
             <Button onClick={this.logout}>退出登录</Button>
           </Header>
           <Content style={{ margin: "0 16px" }}>
@@ -121,6 +122,10 @@ export default class Home extends Component {
                 <Switch>
                   <PrivateRoute path="/users" component={Users}></PrivateRoute>
                   <PrivateRoute path="/roles" component={Roles}></PrivateRoute>
+                  <PrivateRoute
+                    path="/rights"
+                    component={Rights}
+                  ></PrivateRoute>
                 </Switch>
                 <Route path="/users" component={Users}></Route>
               </Switch>
