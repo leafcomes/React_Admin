@@ -159,10 +159,15 @@ export default class Users extends Component {
       if (res.meta.status !== 200) {
         return message.error("获取用户列表失败！");
       }
-      this.setState({ userList: res.data.users });
-      this.setState({ userTotal: res.data.total });
+      this.setState({ userList: res.data.users, userTotal: res.data.total });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
+    }
+  };
+  resetSearch = (event) => {
+    if (event.target.value === "") {
+      this.state.queryInfo.query = "";
+      this.getUserList();
     }
   };
   searchUser = (username) => {

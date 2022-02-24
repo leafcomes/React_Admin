@@ -1,3 +1,16 @@
+/* CSS通用样式表 */
+/* text-align */
+.tc{text-align:center;}
+.tr{text-align:right;}
+.tl{text-align:left;}
+.tj{text-align:justify;}
+/* text-decoration */
+.w100p{
+  width: 100%;
+}
+.ml0{
+  margin-left: 0!important;
+}
 /* 设置Button组件的相关样式 */
 .primaryStyle{
   background-color: #409eff!important;
@@ -13,7 +26,25 @@
   color: white!important;
 }
 
+/* 重置ant-design组件的相关css */
 .ant-tag{
   margin: 8px;
   padding: 8px;
+}
+/* tile uploaded pictures */
+/* .upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+
+.upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+  float: right;
+} */
+.ant-empty{
+  margin-top: 30px;
+}
+/* 设置富文本编辑器的样式 */
+#root .ql-editor {
+  min-height: 16em;
 }

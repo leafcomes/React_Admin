@@ -1,18 +1,6 @@
 import React, { Component } from "react";
-import axios from 'axios'
-import {
-  Space,
-  Button,
-  Table,
-  message,
-  Tag,
-  Row,
-  Col,
-  Modal,
-  Input,
-  Form,
-  Tree,
-} from "antd";
+import axios from "axios";
+import { Table, message, Tag } from "antd";
 export default class Rights extends Component {
   columns = [
     {
@@ -47,23 +35,28 @@ export default class Rights extends Component {
   getRightList = async () => {
     try {
       const { data: res } = await axios.get("rights/list");
-      if(res.meta.status !==200){
-        message.error("获取权限列表失败！")
+      if (res.meta.status !== 200) {
+        message.error("获取权限列表失败！");
       }
-      this.setState({rightList: res.data})
-      message.success("获取权限成功！")
+      this.setState({ rightList: res.data });
+      message.success("获取权限成功！");
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.getRightList();
   }
   render() {
     return (
       <>
-        <Table columns={this.columns} dataSource={this.state.rightList} bordered/>
+        <Table
+          columns={this.columns}
+          dataSource={this.state.rightList}
+          bordered
+          rowKey={record => record.id}
+        />
       </>
     );
   }

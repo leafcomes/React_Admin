@@ -16,6 +16,9 @@ import Logo from "../../images/logo.png";
 import Users from "../UserManage/Users";
 import Roles from "../RightManage/Roles";
 import Rights from "../RightManage/Rights";
+import GoodList from "../GoodManage/GoodList";
+import AddGood from "../GoodManage/AddGood";
+import EditGood from "../GoodManage/EditGood";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -125,6 +128,19 @@ export default class Home extends Component {
                   <PrivateRoute
                     path="/rights"
                     component={Rights}
+                  ></PrivateRoute>
+                  <PrivateRoute
+                    path="/goods"
+                    component={GoodList}
+                    exact
+                  ></PrivateRoute>
+                  <PrivateRoute
+                    path="/goods/add"
+                    component={AddGood}
+                  ></PrivateRoute>
+                  <PrivateRoute
+                    path="/goods/edit/:goods_id"
+                    component={EditGood}
                   ></PrivateRoute>
                 </Switch>
                 <Route path="/users" component={Users}></Route>
