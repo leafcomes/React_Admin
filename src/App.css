@@ -25,6 +25,18 @@
   background-color: #f56c6c!important;
   color: white!important;
 }
+/* 添加标签的样式 */
+.site-tag-plus {
+  background: #fff;
+  border-style: dashed;
+}
+/* 标签输入框的样式 */
+.tag-input {
+  width: 78px;
+  margin-left: 8px;
+  margin-top: 10px;
+  vertical-align: top;
+}
 
 /* 重置ant-design组件的相关css */
 .ant-tag{

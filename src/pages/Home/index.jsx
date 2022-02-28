@@ -19,6 +19,7 @@ import Rights from "../RightManage/Rights";
 import GoodList from "../GoodManage/GoodList";
 import AddGood from "../GoodManage/AddGood";
 import EditGood from "../GoodManage/EditGood";
+import Params from "../GoodManage/Params";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -135,6 +136,10 @@ export default class Home extends Component {
                     exact
                   ></PrivateRoute>
                   <PrivateRoute
+                    path="/params"
+                    component={Params}
+                    exact
+                  ></PrivateRoute><PrivateRoute
                     path="/goods/add"
                     component={AddGood}
                   ></PrivateRoute>
