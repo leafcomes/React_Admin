@@ -20,6 +20,7 @@ import GoodList from "../GoodManage/GoodList";
 import AddGood from "../GoodManage/AddGood";
 import EditGood from "../GoodManage/EditGood";
 import Params from "../GoodManage/Params";
+import Categories from "../GoodManage/Categories";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -68,11 +69,7 @@ export default class Home extends Component {
   render() {
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider
-          collapsible
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
-        >
+        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo">
             <img src={Logo} alt="" />
           </div>
@@ -94,9 +91,7 @@ export default class Home extends Component {
                   {subMenu.children.map((menuItem) => {
                     return (
                       <Menu.Item key={menuItem.id} icon={<AppstoreOutlined />}>
-                        <Link to={"/" + menuItem.path}>
-                          {menuItem.authName}
-                        </Link>
+                        <Link to={"/" + menuItem.path}>{menuItem.authName}</Link>
                       </Menu.Item>
                     );
                   })}
@@ -118,43 +113,23 @@ export default class Home extends Component {
               <Breadcrumb.Item>用户管理</Breadcrumb.Item>
               <Breadcrumb.Item>用户列表</Breadcrumb.Item>
             </Breadcrumb>
-            <div
-              className="site-layout-background"
-              style={{ padding: 12, minHeight: 360 }}
-            >
+            <div className="site-layout-background" style={{ padding: 12, minHeight: 360 }}>
               <Switch>
                 <Switch>
                   <PrivateRoute path="/users" component={Users}></PrivateRoute>
                   <PrivateRoute path="/roles" component={Roles}></PrivateRoute>
-                  <PrivateRoute
-                    path="/rights"
-                    component={Rights}
-                  ></PrivateRoute>
-                  <PrivateRoute
-                    path="/goods"
-                    component={GoodList}
-                    exact
-                  ></PrivateRoute>
-                  <PrivateRoute
-                    path="/params"
-                    component={Params}
-                    exact
-                  ></PrivateRoute><PrivateRoute
-                    path="/goods/add"
-                    component={AddGood}
-                  ></PrivateRoute>
-                  <PrivateRoute
-                    path="/goods/edit/:goods_id"
-                    component={EditGood}
-                  ></PrivateRoute>
+                  <PrivateRoute path="/rights" component={Rights}></PrivateRoute>
+                  <PrivateRoute path="/goods" component={GoodList} exact></PrivateRoute>
+                  <PrivateRoute path="/params" component={Params} exact></PrivateRoute>
+                  <PrivateRoute path="/categories" component={Categories} exact></PrivateRoute>
+                  <PrivateRoute path="/goods/add" component={AddGood}></PrivateRoute>
+                  <PrivateRoute path="/goods/edit/:goods_id" component={EditGood}></PrivateRoute>
                 </Switch>
                 <Route path="/users" component={Users}></Route>
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
+          <Footer style={{ textAlign: "center" }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
       </Layout>
     );

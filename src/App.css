@@ -38,6 +38,21 @@
   vertical-align: top;
 }
 
+.expandIcon{
+  margin-right:8px;
+}
+/* 不同层次表格行的背景颜色 */
+.levelOneRow{
+  background-color: #e6f7ff;
+}
+.levelTwoRow{
+  background-color: #f0f9eb;
+}
+.levelThreeRow{
+  background-color: #fff7e6;
+}
+
+
 /* 重置ant-design组件的相关css */
 .ant-tag{
   margin: 8px;
