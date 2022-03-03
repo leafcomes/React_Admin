@@ -80,6 +80,8 @@ export default class Params extends Component {
     editModalVisible: false,
     // 被激活的tab标签名称,默认为动态参数所在标签栏
     activeTabName: "many",
+    // 级联选择器已选择的商品分类列表
+    checkedCateList: [],
   };
   showAddModal = () => {
     this.setState({ addModalVisible: true });
@@ -109,6 +111,12 @@ export default class Params extends Component {
 
   // 更新级联选择器选择的商品分类三级ID
   updateCheckedCateId = (checkedValue) => {
+    
+    if (checkedValue.length !== 3) {
+      this.setState({checkedCateList:[]})
+      return;
+    }
+    this.state.checkedCateList = checkedValue;
     this.state.goods_cat_threeId = checkedValue[2];
     this.getDefaultDynamicParams();
     this.getDefaultStaticAttributes();
@@ -135,6 +143,7 @@ export default class Params extends Component {
           params: { sel: listType },
         }
       );
+      
       if (res.meta.status !== 200) {
         return listType === "many"
           ? message.error("获取动态参数列表失败！")
@@ -283,6 +292,7 @@ export default class Params extends Component {
               }}
             >
               <Cascader
+                value={this.state.checkedCateList}
                 placeholder="请选择"
                 expandTrigger="hover"
                 fieldNames={{

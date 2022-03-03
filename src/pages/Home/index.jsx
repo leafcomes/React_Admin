@@ -21,6 +21,7 @@ import AddGood from "../GoodManage/AddGood";
 import EditGood from "../GoodManage/EditGood";
 import Params from "../GoodManage/Params";
 import Categories from "../GoodManage/Categories";
+import OrderList from "../OrderManage/OrderList";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -124,6 +125,7 @@ export default class Home extends Component {
                   <PrivateRoute path="/categories" component={Categories} exact></PrivateRoute>
                   <PrivateRoute path="/goods/add" component={AddGood}></PrivateRoute>
                   <PrivateRoute path="/goods/edit/:goods_id" component={EditGood}></PrivateRoute>
+                  <PrivateRoute path="/orders" component={OrderList}></PrivateRoute>
                 </Switch>
                 <Route path="/users" component={Users}></Route>
               </Switch>

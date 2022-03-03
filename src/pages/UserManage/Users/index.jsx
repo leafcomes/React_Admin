@@ -63,7 +63,6 @@ export default class Users extends Component {
     },
     {
       title: "操作",
-      dataIndex: "operation",
       key: "operation",
       render: (text, record) => (
         <Space>
@@ -99,6 +98,7 @@ export default class Users extends Component {
       ),
     },
   ];
+
   // 验证邮箱的正则表达式
   regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
   // 验证手机号的正则表达式
@@ -236,10 +236,6 @@ export default class Users extends Component {
     }
   };
   editUserModalClosed = () => {
-    // this.editUserFormRef.current.resetFields([{
-    //   name: "username",
-    //   value: this.state.editUserForm.username
-    // }]);
     this.setState({ editUserModalVisible: false });
   };
   editUser = () => {
