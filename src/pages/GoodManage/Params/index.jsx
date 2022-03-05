@@ -111,9 +111,8 @@ export default class Params extends Component {
 
   // 更新级联选择器选择的商品分类三级ID
   updateCheckedCateId = (checkedValue) => {
-    
     if (checkedValue.length !== 3) {
-      this.setState({checkedCateList:[]})
+      this.setState({ checkedCateList: [] });
       return;
     }
     this.state.checkedCateList = checkedValue;
@@ -143,7 +142,7 @@ export default class Params extends Component {
           params: { sel: listType },
         }
       );
-      
+
       if (res.meta.status !== 200) {
         return listType === "many"
           ? message.error("获取动态参数列表失败！")
@@ -435,7 +434,6 @@ export default class Params extends Component {
                 }}
               />
             </Space>
-            <Table />
           </TabPane>
         </Tabs>
         <Modal

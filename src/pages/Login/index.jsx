@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Button, Input, message } from "antd";
 import axios from "axios";
 import "./index.css";
-import logo from "../../images/logo.png";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 export default class Login extends Component {
   formRef = React.createRef();
@@ -29,38 +28,36 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="loginContainer">
-        <div className="avatar">
-          <img src={logo} alt="" />
-        </div>
-        <Form
-          className="loginForm"
-          validateMessages="登录成功"
-          ref={this.formRef}
-          onFinish={this.onFinish}
-          initialValues={{ username: "admin", password: "123456" }}
-        >
-          <Form.Item name="username" rules={this.formRules.username}>
-            <Input
-              placeholder="用户名"
-              prefix={<UserOutlined />}
-              size="large"
-            ></Input>
-          </Form.Item>
-          <Form.Item name="password" rules={this.formRules.password}>
-            <Input.Password
-              placeholder="密码"
-              prefix={<LockOutlined />}
-              size="large"
-            ></Input.Password>
-          </Form.Item>
-          <div className="btns">
-            <Button type="primary" htmlType="submit">
-              登录
-            </Button>
-            <Button onClick={this.reset}>重置</Button>
+      <div className="loginBody">
+        <div className="loginContainer">
+          <div className="avatar">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" alt="" />
           </div>
-        </Form>
+          <Form
+            className="loginForm"
+            validateMessages="登录成功"
+            ref={this.formRef}
+            onFinish={this.onFinish}
+            initialValues={{ username: "admin", password: "123456" }}
+          >
+            <Form.Item name="username" rules={this.formRules.username}>
+              <Input placeholder="用户名" prefix={<UserOutlined />} size="large"></Input>
+            </Form.Item>
+            <Form.Item name="password" rules={this.formRules.password}>
+              <Input.Password
+                placeholder="密码"
+                prefix={<LockOutlined />}
+                size="large"
+              ></Input.Password>
+            </Form.Item>
+            <div className="btns">
+              <Button type="primary" htmlType="submit">
+                登录
+              </Button>
+              <Button onClick={this.reset}>重置</Button>
+            </div>
+          </Form>
+        </div>
       </div>
     );
   }

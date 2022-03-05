@@ -31,26 +31,31 @@ export default class Users extends Component {
       render: (text, record, index) => index + 1,
     },
     {
+      width:"15%",
       title: "姓名",
       dataIndex: "username",
       key: "username",
     },
     {
+      width:"20%",
       title: "邮箱",
       dataIndex: "email",
       key: "email",
     },
     {
+      width:"15%",
       title: "电话",
       dataIndex: "mobile",
       key: "mobile",
     },
     {
+      width:"15%",
       title: "角色",
       dataIndex: "role_name",
       key: "role_name",
     },
     {
+      width:"10%",
       title: "状态",
       dataIndex: "mg_status",
       key: "mg_state",
@@ -62,6 +67,7 @@ export default class Users extends Component {
       ),
     },
     {
+      width:"20%",
       title: "操作",
       key: "operation",
       render: (text, record) => (
@@ -135,7 +141,7 @@ export default class Users extends Component {
       // 当前的页数
       pagenum: 1,
       // 当前每页显示多少条数据
-      pagesize: 2,
+      pagesize: 10,
     },
     userList: [],
     userTotal: 0,
@@ -316,8 +322,8 @@ export default class Users extends Component {
         return message.error("更新用户角色失败！");
       }
       message.success("更新用户角色成功！");
-      this.getUserList();
       this.setState({ setRoleModalVisible: false });
+      this.getUserList();
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }

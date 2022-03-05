@@ -31,22 +31,26 @@ export default class OrderList extends Component {
       render: (text, record, index) => index + 1,
     },
     {
+      width:"20%",
       title: "订单编号",
       dataIndex: "order_number",
       key: "order_number",
     },
     {
+      width:"10%",
       title: "订单价格",
       dataIndex: "order_price",
       key: "order_price",
     },
     {
+      width:"10%",
       title: "是否付款",
       key: "pay_status",
       render: (text, record) =>
         record.status === 1 ? <Tag color="green">已付款</Tag> : <Tag color="red">未付款</Tag>,
     },
     {
+      width:"10%",
       title: "是否发货",
       key: "is_send",
       render: (text, record) => (
@@ -54,16 +58,19 @@ export default class OrderList extends Component {
       ),
     },
     {
+      width:"20%",
       title: "收货地址",
       key: "consignee_addr",
       dataIndex: "consignee_addr",
     },
     {
+      width:"15%",
       title: "下单时间",
       key: "mg_state",
       render: (text, record) => moment(record.create_time).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
+      width:"10%",
       title: "操作",
       key: "operation",
       render: (text, record) => (
@@ -213,7 +220,6 @@ export default class OrderList extends Component {
       const { data: res } = await axios.get("orders", { params: this.state.queryInfo });
       
       if (res.meta.status !== 200) {
-        console.log('res.meta: ', res.meta);
         return message.error("获取订单列表失败！");
       }
       this.setState({ orderTotal: res.data.total, orderList: res.data.goods });

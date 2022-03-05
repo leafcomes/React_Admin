@@ -1,21 +1,6 @@
 import React, { Component } from "react";
-import {
-  Space,
-  Button,
-  Table,
-  message,
-  Tag,
-  Row,
-  Col,
-  Modal,
-  Input,
-  Form,
-  Tree,
-} from "antd";
-import {
-  CaretRightOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { Space, Button, Table, message, Tag, Row, Col, Modal, Input, Form, Tree } from "antd";
+import { CaretRightOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const { confirm } = Modal;
@@ -35,16 +20,19 @@ export default class Roles extends Component {
     },
     {
       title: "角色名称",
+      width:"20%",
       key: "roleName",
       dataIndex: "roleName",
     },
     {
       title: "角色描述",
+      width: "40%",
       key: "roleDesc",
       dataIndex: "roleDesc",
     },
     {
       title: "操作",
+      width: "30%",
       key: "operation",
       render: (text, record) => {
         return (
@@ -181,7 +169,7 @@ export default class Roles extends Component {
         return message.error("获取权限列表失败");
       }
       const roleLeafRightIds = this.getRoleLeafRightIds(role);
-      
+
       this.setState({
         allotRightModalVisible: true,
         rightList: res.data,
@@ -196,9 +184,7 @@ export default class Roles extends Component {
   removeRightById = async (role, rightId) => {
     // 根据Id删除对应的权限
     try {
-      const { data: res } = await axios.delete(
-        `roles/${role.id}/rights/${rightId}`
-      );
+      const { data: res } = await axios.delete(`roles/${role.id}/rights/${rightId}`);
       if (res.meta.status !== 200) {
         return message.error("删除权限失败！");
       }
@@ -253,13 +239,10 @@ export default class Roles extends Component {
       .then(async (value) => {
         try {
           // 发起修改角色信息的数据请求
-          const { data: res } = await axios.put(
-            `roles/${this.state.editRoleForm.roleId}`,
-            {
-              roleName: value.roleName,
-              roleDesc: value.roleDesc,
-            }
-          );
+          const { data: res } = await axios.put(`roles/${this.state.editRoleForm.roleId}`, {
+            roleName: value.roleName,
+            roleDesc: value.roleDesc,
+          });
           if (res.meta.status !== 200) {
             return message.error("更新角色信息失败！");
           }
@@ -282,13 +265,12 @@ export default class Roles extends Component {
       const { data: res } = await axios.post(`roles/${this.state.RoleIdOfAllotRight}/rights`, {
         rids: idStr,
       });
-      if(res.meta.status !== 200){
-        
-        return message.error("分配权限失败！")
+      if (res.meta.status !== 200) {
+        return message.error("分配权限失败！");
       }
       this.getRoleList();
-      this.setState({allotRightModalVisible: false})
-      message.success("分配权限成功")
+      this.setState({ allotRightModalVisible: false });
+      message.success("分配权限成功");
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -300,7 +282,7 @@ export default class Roles extends Component {
   render() {
     return (
       <>
-        <Space direction="vertical">
+        <Space direction="vertical" style={{ width: "100%" }}>
           <Button
             type="primary"
             onClick={() => {
@@ -344,10 +326,7 @@ export default class Roles extends Component {
                                   color="green"
                                   visible={this.state.tagVisible}
                                   onClose={() => {
-                                    this.showRemoveRightConfirm(
-                                      record,
-                                      subItem.id
-                                    );
+                                    this.showRemoveRightConfirm(record, subItem.id);
                                   }}
                                 >
                                   {subItem.authName}
@@ -365,10 +344,7 @@ export default class Roles extends Component {
                                           color="orange"
                                           visible={this.state.tagVisible}
                                           onClose={() => {
-                                            this.showRemoveRightConfirm(
-                                              record,
-                                              item.id
-                                            );
+                                            this.showRemoveRightConfirm(record, item.id);
                                           }}
                                         >
                                           {item.authName}
@@ -400,18 +376,10 @@ export default class Roles extends Component {
           }}
         >
           <Form ref={this.addRoleFormRef}>
-            <Form.Item
-              name="roleName"
-              label="角色名称"
-              rules={this.roleRules.roleName}
-            >
+            <Form.Item name="roleName" label="角色名称" rules={this.roleRules.roleName}>
               <Input />
             </Form.Item>
-            <Form.Item
-              name="roleDesc"
-              label="角色描述"
-              rules={this.roleRules.roleDesc}
-            >
+            <Form.Item name="roleDesc" label="角色描述" rules={this.roleRules.roleDesc}>
               <Input />
             </Form.Item>
           </Form>
@@ -425,22 +393,11 @@ export default class Roles extends Component {
             this.setState({ editRoleModalVisible: false });
           }}
         >
-          <Form
-            initialValues={this.state.editRoleForm}
-            ref={this.editRoleFormRef}
-          >
-            <Form.Item
-              name="roleName"
-              label="角色名称"
-              rules={this.roleRules.roleName}
-            >
+          <Form initialValues={this.state.editRoleForm} ref={this.editRoleFormRef}>
+            <Form.Item name="roleName" label="角色名称" rules={this.roleRules.roleName}>
               <Input />
             </Form.Item>
-            <Form.Item
-              name="roleDesc"
-              label="角色描述"
-              rules={this.roleRules.roleDesc}
-            >
+            <Form.Item name="roleDesc" label="角色描述" rules={this.roleRules.roleDesc}>
               <Input />
             </Form.Item>
           </Form>

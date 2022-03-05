@@ -21,26 +21,31 @@ export default class GoodList extends Component {
       render: (text, record, index) => index + 1,
     },
     {
+      width:"45%",
       title: "商品名称",
       dataIndex: "goods_name",
       key: "goods_name",
     },
     {
+      width:"10%",
       title: "商品价格（元）",
       dataIndex: "goods_price",
       key: "goods_price",
     },
     {
+      width:"10%",
       title: "商品重量（克）",
       dataIndex: "goods_weight",
       key: "goods_weight",
     },
     {
+      width:"15%",
       title: "创建事件",
       key: "add_time",
       render: (text,record)=> new Date(record.add_time).toLocaleDateString()
     },
     {
+      width:"10%",
       title: "操作",
       dataIndex: "operation",
       key: "operation",

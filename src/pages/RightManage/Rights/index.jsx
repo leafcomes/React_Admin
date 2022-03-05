@@ -9,16 +9,19 @@ export default class Rights extends Component {
       render: (text, record, index) => index + 1,
     },
     {
+      width:"40%",
       title: "权限名称",
       dataIndex: "authName",
       key: "authName",
     },
     {
+      width:"30%",
       title: "路径",
       dataIndex: "path",
       key: "path",
     },
     {
+      width:"20%",
       title: "权限等级",
       key: "level",
       render: (text, record) => {
@@ -39,7 +42,6 @@ export default class Rights extends Component {
         message.error("获取权限列表失败！");
       }
       this.setState({ rightList: res.data });
-      message.success("获取权限成功！");
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
