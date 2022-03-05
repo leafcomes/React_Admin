@@ -31,26 +31,26 @@ export default class OrderList extends Component {
       render: (text, record, index) => index + 1,
     },
     {
-      width:"20%",
+      width: "20%",
       title: "订单编号",
       dataIndex: "order_number",
       key: "order_number",
     },
     {
-      width:"10%",
+      width: "10%",
       title: "订单价格",
       dataIndex: "order_price",
       key: "order_price",
     },
     {
-      width:"10%",
+      width: "10%",
       title: "是否付款",
       key: "pay_status",
       render: (text, record) =>
         record.status === 1 ? <Tag color="green">已付款</Tag> : <Tag color="red">未付款</Tag>,
     },
     {
-      width:"10%",
+      width: "10%",
       title: "是否发货",
       key: "is_send",
       render: (text, record) => (
@@ -58,19 +58,19 @@ export default class OrderList extends Component {
       ),
     },
     {
-      width:"20%",
+      width: "20%",
       title: "收货地址",
       key: "consignee_addr",
       dataIndex: "consignee_addr",
     },
     {
-      width:"15%",
+      width: "15%",
       title: "下单时间",
       key: "mg_state",
       render: (text, record) => moment(record.create_time).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
-      width:"10%",
+      width: "10%",
       title: "操作",
       key: "operation",
       render: (text, record) => (
@@ -83,7 +83,11 @@ export default class OrderList extends Component {
             />
           </Tooltip>
           <Tooltip title="物流进度" color="orange">
-            <Button icon={<CarOutlined />} className="warningStyle" onClick={this.showExpressProgressModal} />
+            <Button
+              icon={<CarOutlined />}
+              className="warningStyle"
+              onClick={this.showExpressProgressModal}
+            />
           </Tooltip>
         </Space>
       ),
@@ -99,7 +103,7 @@ export default class OrderList extends Component {
       pagesize: 10,
     },
     shippingAddressModalVisible: false,
-    expressProgressModalVisible:false,
+    expressProgressModalVisible: false,
     // 当前编辑订单的ID
     order_id: "",
     order_price: "",
@@ -109,66 +113,67 @@ export default class OrderList extends Component {
     },
     expressProgressInfo: [
       {
-        "time": "2018-05-10 09:39:00",
-        "ftime": "2018-05-10 09:39:00",
-        "context": "已签收,感谢使用顺丰,期待再次为您服务",
-        "location": ""
+        time: "2018-05-10 09:39:00",
+        ftime: "2018-05-10 09:39:00",
+        context: "已签收,感谢使用顺丰,期待再次为您服务",
+        location: "",
       },
       {
-        "time": "2018-05-10 08:23:00",
-        "ftime": "2018-05-10 08:23:00",
-        "context": "[北京市]北京海淀育新小区营业点派件员 顺丰速运 95338正在为您派件",
-        "location": ""
+        time: "2018-05-10 08:23:00",
+        ftime: "2018-05-10 08:23:00",
+        context: "[北京市]北京海淀育新小区营业点派件员 顺丰速运 95338正在为您派件",
+        location: "",
       },
       {
-        "time": "2018-05-10 07:32:00",
-        "ftime": "2018-05-10 07:32:00",
-        "context": "快件到达 [北京海淀育新小区营业点]",
-        "location": ""
+        time: "2018-05-10 07:32:00",
+        ftime: "2018-05-10 07:32:00",
+        context: "快件到达 [北京海淀育新小区营业点]",
+        location: "",
       },
       {
-        "time": "2018-05-10 02:03:00",
-        "ftime": "2018-05-10 02:03:00",
-        "context": "快件在[北京顺义集散中心]已装车,准备发往 [北京海淀育新小区营业点]",
-        "location": ""
+        time: "2018-05-10 02:03:00",
+        ftime: "2018-05-10 02:03:00",
+        context: "快件在[北京顺义集散中心]已装车,准备发往 [北京海淀育新小区营业点]",
+        location: "",
       },
       {
-        "time": "2018-05-09 23:05:00",
-        "ftime": "2018-05-09 23:05:00",
-        "context": "快件到达 [北京顺义集散中心]",
-        "location": ""
+        time: "2018-05-09 23:05:00",
+        ftime: "2018-05-09 23:05:00",
+        context: "快件到达 [北京顺义集散中心]",
+        location: "",
       },
       {
-        "time": "2018-05-09 21:21:00",
-        "ftime": "2018-05-09 21:21:00",
-        "context": "快件在[北京宝胜营业点]已装车,准备发往 [北京顺义集散中心]",
-        "location": ""
+        time: "2018-05-09 21:21:00",
+        ftime: "2018-05-09 21:21:00",
+        context: "快件在[北京宝胜营业点]已装车,准备发往 [北京顺义集散中心]",
+        location: "",
       },
       {
-        "time": "2018-05-09 13:07:00",
-        "ftime": "2018-05-09 13:07:00",
-        "context": "顺丰速运 已收取快件",
-        "location": ""
+        time: "2018-05-09 13:07:00",
+        ftime: "2018-05-09 13:07:00",
+        context: "顺丰速运 已收取快件",
+        location: "",
       },
       {
-        "time": "2018-05-09 12:25:03",
-        "ftime": "2018-05-09 12:25:03",
-        "context": "卖家发货",
-        "location": ""
+        time: "2018-05-09 12:25:03",
+        ftime: "2018-05-09 12:25:03",
+        context: "卖家发货",
+        location: "",
       },
       {
-        "time": "2018-05-09 12:22:24",
-        "ftime": "2018-05-09 12:22:24",
-        "context": "您的订单将由HLA（北京海淀区清河中街店）门店安排发货。",
-        "location": ""
+        time: "2018-05-09 12:22:24",
+        ftime: "2018-05-09 12:22:24",
+        context: "您的订单将由HLA（北京海淀区清河中街店）门店安排发货。",
+        location: "",
       },
       {
-        "time": "2018-05-08 21:36:04",
-        "ftime": "2018-05-08 21:36:04",
-        "context": "商品已经下单",
-        "location": ""
-      }
-    ]
+        time: "2018-05-08 21:36:04",
+        ftime: "2018-05-08 21:36:04",
+        context: "商品已经下单",
+        location: "",
+      },
+    ],
+    loading: false,
   };
   showShippingAddressModal = async ({ order_id, order_price }) => {
     try {
@@ -183,7 +188,7 @@ export default class OrderList extends Component {
         shippingAddressModalVisible: true,
         editShippingAddressForm: { areaAddress, detailAddress },
         order_id,
-        order_price
+        order_price,
       });
     } catch (error) {}
   };
@@ -194,11 +199,9 @@ export default class OrderList extends Component {
       //   return message.error("获取物流进度失败！");
       // }
       // this.setState({expressProgressModalVisible:true,expressProgressInfo:res.data})
-      this.setState({expressProgressModalVisible:true})
-    } catch (error) {
-      
-    }
-  }
+      this.setState({ expressProgressModalVisible: true });
+    } catch (error) {}
+  };
   // 页码或pagesize改变时的回调函数
   onPageChange = (page, pagesize) => {
     this.state.queryInfo.pagenum = page;
@@ -216,13 +219,14 @@ export default class OrderList extends Component {
     this.getOrderList();
   };
   getOrderList = async () => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("orders", { params: this.state.queryInfo });
-      
+
       if (res.meta.status !== 200) {
         return message.error("获取订单列表失败！");
       }
-      this.setState({ orderTotal: res.data.total, orderList: res.data.goods });
+      this.setState({ orderTotal: res.data.total, orderList: res.data.goods, loading: false });
     } catch (error) {}
   };
   editShippingAddress = async () => {
@@ -236,16 +240,13 @@ export default class OrderList extends Component {
             order_price: this.state.order_price,
           });
           if (res.meta.status !== 201) {
-            
             return message.error("编辑收货地址失败！");
           }
           message.success("编辑收货地址成功！");
           this.setState({ shippingAddressModalVisible: false });
           this.getOrderList();
         });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
   componentDidMount() {
     this.getOrderList();
@@ -263,6 +264,7 @@ export default class OrderList extends Component {
             onSearch={this.searchOrder}
           />
           <Table
+            loading={this.state.loading}
             pagination={{ position: ["none"] }}
             columns={this.columns}
             dataSource={this.state.orderList}
@@ -290,7 +292,10 @@ export default class OrderList extends Component {
           onOk={this.editShippingAddress}
           destroyOnClose
         >
-          <Form ref={this.editShippingAddressFormRef} initialValues={this.state.editShippingAddressForm}>
+          <Form
+            ref={this.editShippingAddressFormRef}
+            initialValues={this.state.editShippingAddressForm}
+          >
             <Form.Item
               label="省市区/县"
               labelCol={{ span: 5 }}
@@ -309,12 +314,20 @@ export default class OrderList extends Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Modal visible={this.state.expressProgressModalVisible} onCancel={() => {
-          this.setState({expressProgressModalVisible:false})
-        }} footer={null}>
+        <Modal
+          visible={this.state.expressProgressModalVisible}
+          onCancel={() => {
+            this.setState({ expressProgressModalVisible: false });
+          }}
+          footer={null}
+        >
           <Timeline>
-            {this.state.expressProgressInfo.map((item,index) => {
-              return <Timeline.Item key={index}>{item.context} {item.time}</Timeline.Item>
+            {this.state.expressProgressInfo.map((item, index) => {
+              return (
+                <Timeline.Item key={index}>
+                  {item.context} {item.time}
+                </Timeline.Item>
+              );
             })}
           </Timeline>
         </Modal>

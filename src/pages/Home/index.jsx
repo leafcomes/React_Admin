@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
-import { Layout, Menu, Breadcrumb, message, Popover, Button, Avatar } from "antd";
+import { Layout, Menu, Breadcrumb, BackTop, message, Popover, Button, Avatar } from "antd";
 import {
   UserOutlined,
   SafetyCertificateOutlined,
@@ -142,7 +142,13 @@ export default class Home extends Component {
               <span>电商后台管理系统</span>
             </div>
             <div className="avatar">
-              <Popover content={<Button type="text" onClick={this.logout}>退出登录</Button>}>
+              <Popover
+                content={
+                  <Button type="text" onClick={this.logout}>
+                    退出登录
+                  </Button>
+                }
+              >
                 <Avatar src="https://pic1.zhimg.com/v2-b50fda96df5bf460a630091dfaed7e84_b.jpg" />
               </Popover>
             </div>
@@ -182,6 +188,7 @@ export default class Home extends Component {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <BackTop style={{right:"10px"}}/>
         </Layout>
       </Layout>
     );

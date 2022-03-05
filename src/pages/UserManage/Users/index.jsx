@@ -13,11 +13,7 @@ import {
   Popconfirm,
   Select,
 } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, SettingOutlined } from "@ant-design/icons";
 import axios from "axios";
 const { Search } = Input;
 const { Option } = Select;
@@ -31,31 +27,31 @@ export default class Users extends Component {
       render: (text, record, index) => index + 1,
     },
     {
-      width:"15%",
+      width: "15%",
       title: "姓名",
       dataIndex: "username",
       key: "username",
     },
     {
-      width:"20%",
+      width: "20%",
       title: "邮箱",
       dataIndex: "email",
       key: "email",
     },
     {
-      width:"15%",
+      width: "15%",
       title: "电话",
       dataIndex: "mobile",
       key: "mobile",
     },
     {
-      width:"15%",
+      width: "15%",
       title: "角色",
       dataIndex: "role_name",
       key: "role_name",
     },
     {
-      width:"10%",
+      width: "10%",
       title: "状态",
       dataIndex: "mg_status",
       key: "mg_state",
@@ -67,7 +63,7 @@ export default class Users extends Component {
       ),
     },
     {
-      width:"20%",
+      width: "20%",
       title: "操作",
       key: "operation",
       render: (text, record) => (
@@ -155,9 +151,11 @@ export default class Users extends Component {
     // 所有角色的数据列表
     roleList: [],
     selectedRoleId: "",
+    loading: false,
   };
 
   getUserList = async () => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("users", {
         params: this.state.queryInfo,
@@ -165,7 +163,7 @@ export default class Users extends Component {
       if (res.meta.status !== 200) {
         return message.error("获取用户列表失败！");
       }
-      this.setState({ userList: res.data.users, userTotal: res.data.total });
+      this.setState({ userList: res.data.users, userTotal: res.data.total, loading: false });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -184,9 +182,7 @@ export default class Users extends Component {
   // 监听Switch开关状态的变化
   onStateChange = async (userInfo, checked) => {
     try {
-      const { data: res } = await axios.put(
-        `users/${userInfo.id}/state/${checked}`
-      );
+      const { data: res } = await axios.put(`users/${userInfo.id}/state/${checked}`);
       if (res.meta.status !== 200) {
         return message.error("更新用户状态失败！");
       }
@@ -250,13 +246,10 @@ export default class Users extends Component {
       .then(async (value) => {
         try {
           // 发起修改用户信息的数据请求
-          const { data: res } = await axios.put(
-            "users/" + this.state.editUserForm.id,
-            {
-              email: value.email,
-              mobile: value.mobile,
-            }
-          );
+          const { data: res } = await axios.put("users/" + this.state.editUserForm.id, {
+            email: value.email,
+            mobile: value.mobile,
+          });
           if (res.meta.status !== 200) {
             return message.error("更新用户信息失败！");
           }
@@ -312,12 +305,9 @@ export default class Users extends Component {
       return message.error("请选择要分配的角色！");
     }
     try {
-      const { data: res } = await axios.put(
-        `users/${this.state.userRoleInfo.id}/role`,
-        {
-          rid: this.state.selectedRoleId,
-        }
-      );
+      const { data: res } = await axios.put(`users/${this.state.userRoleInfo.id}/role`, {
+        rid: this.state.selectedRoleId,
+      });
       if (res.meta.status !== 200) {
         return message.error("更新用户角色失败！");
       }
@@ -354,6 +344,7 @@ export default class Users extends Component {
             </Button>
           </Space>
           <Table
+            loading={this.state.loading}
             columns={this.columns}
             dataSource={this.state.userList}
             rowKey={(record) => record.id}
@@ -387,25 +378,13 @@ export default class Users extends Component {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="密码"
-              name="password"
-              rules={this.registerRules.password}
-            >
+            <Form.Item label="密码" name="password" rules={this.registerRules.password}>
               <Input.Password />
             </Form.Item>
-            <Form.Item
-              label="邮箱"
-              name="email"
-              rules={this.registerRules.email}
-            >
+            <Form.Item label="邮箱" name="email" rules={this.registerRules.email}>
               <Input />
             </Form.Item>
-            <Form.Item
-              label="手机"
-              name="mobile"
-              rules={this.registerRules.mobile}
-            >
+            <Form.Item label="手机" name="mobile" rules={this.registerRules.mobile}>
               <Input />
             </Form.Item>
           </Form>
@@ -425,18 +404,10 @@ export default class Users extends Component {
             <Form.Item name="username" label="用户名">
               <Input disabled={true} />
             </Form.Item>
-            <Form.Item
-              name="email"
-              label="邮箱"
-              rules={this.registerRules.email}
-            >
+            <Form.Item name="email" label="邮箱" rules={this.registerRules.email}>
               <Input />
             </Form.Item>
-            <Form.Item
-              name="mobile"
-              label="手机号"
-              rules={this.registerRules.mobile}
-            >
+            <Form.Item name="mobile" label="手机号" rules={this.registerRules.mobile}>
               <Input />
             </Form.Item>
           </Form>
@@ -452,11 +423,7 @@ export default class Users extends Component {
             <p>当前的用户：{this.state.userRoleInfo.username}</p>
             <p>当前的角色：{this.state.userRoleInfo.role_name}</p>
             <span>分配新角色：</span>
-            <Select
-              style={{ width: 120 }}
-              onSelect={this.saveUserRoleId}
-              placeholder="请选择"
-            >
+            <Select style={{ width: 120 }} onSelect={this.saveUserRoleId} placeholder="请选择">
               {this.state.roleList.map((role) => {
                 return <Option key={role.id}>{role.roleName}</Option>;
               })}

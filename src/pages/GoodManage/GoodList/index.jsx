@@ -1,18 +1,9 @@
 import React, { Component } from "react";
-import {
-  Space,
-  Button,
-  Table,
-  message,
-  Tooltip,
-  Modal,
-  Input,
-  Pagination,
-} from "antd";
-import { EditOutlined, DeleteOutlined,ExclamationCircleOutlined } from "@ant-design/icons";
+import { Space, Button, Table, message, Tooltip, Modal, Input, Pagination } from "antd";
+import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 const { Search } = Input;
-const {confirm} = Modal
+const { confirm } = Modal;
 export default class GoodList extends Component {
   columns = [
     {
@@ -21,31 +12,31 @@ export default class GoodList extends Component {
       render: (text, record, index) => index + 1,
     },
     {
-      width:"45%",
+      width: "45%",
       title: "商品名称",
       dataIndex: "goods_name",
       key: "goods_name",
     },
     {
-      width:"10%",
+      width: "10%",
       title: "商品价格（元）",
       dataIndex: "goods_price",
       key: "goods_price",
     },
     {
-      width:"10%",
+      width: "10%",
       title: "商品重量（克）",
       dataIndex: "goods_weight",
       key: "goods_weight",
     },
     {
-      width:"15%",
+      width: "15%",
       title: "创建事件",
       key: "add_time",
-      render: (text,record)=> new Date(record.add_time).toLocaleDateString()
+      render: (text, record) => new Date(record.add_time).toLocaleDateString(),
     },
     {
-      width:"10%",
+      width: "10%",
       title: "操作",
       dataIndex: "operation",
       key: "operation",
@@ -65,7 +56,7 @@ export default class GoodList extends Component {
               icon={<DeleteOutlined />}
               className="dangerStyle"
               onClick={() => {
-                this.showRemoveGoodConfirm(record.goods_id)
+                this.showRemoveGoodConfirm(record.goods_id);
               }}
             />
           </Tooltip>
@@ -83,9 +74,11 @@ export default class GoodList extends Component {
     goodTotal: 0,
     // 控制删除商品的对话框的显示与隐藏
     removeGoodConfirmVisible: false,
+    loading: false,
   };
   // 获取商品列表
   getGoodList = async () => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("goods", {
         params: this.state.queryInfo,
@@ -93,7 +86,7 @@ export default class GoodList extends Component {
       if (res.meta.status !== 200) {
         return message.error("获取商品失败！");
       }
-      this.setState({ goodList: res.data.goods, goodTotal: res.data.total });
+      this.setState({ goodList: res.data.goods, goodTotal: res.data.total, loading: false });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -168,6 +161,7 @@ export default class GoodList extends Component {
             </Button>
           </Space>
           <Table
+            loading={this.state.loading}
             pagination={{ position: ["none"] }}
             bordered
             columns={this.columns}

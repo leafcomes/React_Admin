@@ -53,7 +53,6 @@ export default class Categories extends Component {
           <Button
             className="primaryStyle"
             onClick={() => {
-              
               this.showEditCateModal(record);
             }}
           >
@@ -95,6 +94,7 @@ export default class Categories extends Component {
       cat_name: "",
       cat_id: "",
     },
+    loading: false,
   };
   // 页码或pagesize改变时的回调函数
   onPageChange = (page, pagesize) => {
@@ -128,12 +128,13 @@ export default class Categories extends Component {
   };
 
   getCateList = async () => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("categories", { params: this.state.queryInfo });
       if (res.meta.status !== 200) {
         return message.error("获取商品分类列表失败！");
       }
-      this.setState({ cateList: res.data.result, cateTotal: res.data.total });
+      this.setState({ cateList: res.data.result, cateTotal: res.data.total, loading: false });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -199,6 +200,7 @@ export default class Categories extends Component {
             添加分类
           </Button>
           <Table
+            loading={this.state.loading}
             pagination={{ position: ["none"] }}
             columns={this.columns}
             rowKey={(record) => record.cat_id}
@@ -267,7 +269,6 @@ export default class Categories extends Component {
                 options={this.state.parentCateList}
               />
             </Form.Item>
-
           </Form>
         </Modal>
         <Modal

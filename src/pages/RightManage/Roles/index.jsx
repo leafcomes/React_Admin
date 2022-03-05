@@ -20,7 +20,7 @@ export default class Roles extends Component {
     },
     {
       title: "角色名称",
-      width:"20%",
+      width: "20%",
       key: "roleName",
       dataIndex: "roleName",
     },
@@ -90,14 +90,16 @@ export default class Roles extends Component {
     roleLeafRightIds: [],
     // 需要被分配权限的角色Id
     RoleIdOfAllotRight: "",
+    loading: false,
   };
   getRoleList = async (params) => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("roles");
       if (res.meta.status !== 200) {
         return message.error("获取角色列表失败！");
       }
-      this.setState({ roleList: res.data });
+      this.setState({ roleList: res.data, loading: false });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -292,6 +294,7 @@ export default class Roles extends Component {
             添加角色
           </Button>
           <Table
+            loading={this.state.loading}
             columns={this.columns}
             rowKey={(record) => record.id}
             dataSource={this.state.roleList}

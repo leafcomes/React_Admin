@@ -82,6 +82,7 @@ export default class Params extends Component {
     activeTabName: "many",
     // 级联选择器已选择的商品分类列表
     checkedCateList: [],
+    loading: false,
   };
   showAddModal = () => {
     this.setState({ addModalVisible: true });
@@ -134,6 +135,7 @@ export default class Params extends Component {
   };
   // listType用来标记获取的是动态参数列表还是静态属性列表
   getParamsAndAttributes = async (listType) => {
+    this.setState({ loading: true });
     try {
       // 只能通过商品所属的第三级分类ID查询
       const { data: res } = await axios.get(
@@ -155,7 +157,7 @@ export default class Params extends Component {
         item.tagInputVisible = false;
         item.tagInputValue = "";
       });
-
+      this.setState({ loading: false });
       return res.data;
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
@@ -321,6 +323,7 @@ export default class Params extends Component {
                 添加参数
               </Button>
               <Table
+                loading={this.state.loading}
                 bordered
                 columns={this.columns}
                 dataSource={this.state.defaultDynamicParams}
@@ -383,6 +386,7 @@ export default class Params extends Component {
                 添加属性
               </Button>
               <Table
+                loading={this.state.loading}
                 bordered
                 columns={this.columns}
                 dataSource={this.state.defaultStaticAttributes}

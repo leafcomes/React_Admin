@@ -9,19 +9,19 @@ export default class Rights extends Component {
       render: (text, record, index) => index + 1,
     },
     {
-      width:"40%",
+      width: "40%",
       title: "权限名称",
       dataIndex: "authName",
       key: "authName",
     },
     {
-      width:"30%",
+      width: "30%",
       title: "路径",
       dataIndex: "path",
       key: "path",
     },
     {
-      width:"20%",
+      width: "20%",
       title: "权限等级",
       key: "level",
       render: (text, record) => {
@@ -33,15 +33,17 @@ export default class Rights extends Component {
   ];
   state = {
     rightList: [],
+    loading: false,
   };
 
   getRightList = async () => {
+    this.setState({ loading: true });
     try {
       const { data: res } = await axios.get("rights/list");
       if (res.meta.status !== 200) {
         message.error("获取权限列表失败！");
       }
-      this.setState({ rightList: res.data });
+      this.setState({ rightList: res.data, loading: false });
     } catch (error) {
       return message.error("网络出错，请稍后重试！");
     }
@@ -54,10 +56,11 @@ export default class Rights extends Component {
     return (
       <>
         <Table
+          loading={this.state.loading}
           columns={this.columns}
           dataSource={this.state.rightList}
           bordered
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
         />
       </>
     );
