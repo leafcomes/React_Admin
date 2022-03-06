@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { Link, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
-import { Layout, Menu, Breadcrumb, BackTop, message, Popover, Button, Avatar } from "antd";
+import { Layout, Spin, Menu, Breadcrumb, BackTop, message, Popover, Button, Avatar } from "antd";
 import {
   UserOutlined,
   SafetyCertificateOutlined,
@@ -9,20 +9,21 @@ import {
   AccountBookOutlined,
   FundOutlined,
   AppstoreOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import "./index.css";
 import PrivateRoute from "../../components/PrivateRoute";
-import Welcome from "../Welcome";
-import Users from "../UserManage/Users";
-import Roles from "../RightManage/Roles";
-import Rights from "../RightManage/Rights";
-import GoodList from "../GoodManage/GoodList";
-import AddGood from "../GoodManage/AddGood";
-import EditGood from "../GoodManage/EditGood";
-import Params from "../GoodManage/Params";
-import Categories from "../GoodManage/Categories";
-import OrderList from "../OrderManage/OrderList";
-import Reports from "../DataStatistics/Reports";
+import Welcome from "../Welcome"
+const Users = lazy(() => import("../UserManage/Users"));
+const Roles = lazy(() => import("../RightManage/Roles"));
+const Rights = lazy(() => import("../RightManage/Rights"));
+const GoodList = lazy(() => import("../GoodManage/GoodList"));
+const AddGood = lazy(() => import("../GoodManage/AddGood"));
+const EditGood = lazy(() => import("../GoodManage/EditGood"));
+const Params = lazy(() => import("../GoodManage/Params"));
+const Categories = lazy(() => import("../GoodManage/Categories"));
+const OrderList = lazy(() => import("../OrderManage/OrderList"));
+const Reports = lazy(() => import("../DataStatistics/Reports"));
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default class Home extends Component {
@@ -143,6 +144,7 @@ export default class Home extends Component {
             </div>
             <div className="avatar">
               <Popover
+                placement="bottomLeft"
                 content={
                   <Button type="text" onClick={this.logout}>
                     退出登录
@@ -168,27 +170,29 @@ export default class Home extends Component {
               </Breadcrumb>
             )}
             <div className="site-layout-background" style={{ padding: 12, minHeight: 360 }}>
-              <Switch>
+              <Suspense fallback={<Spin indicator={<LoadingOutlined spin style={{fontSize:36}}/>} wrapperClassName="site-spin"/>}>
                 <Switch>
-                  <PrivateRoute path="/welcome" component={Welcome}></PrivateRoute>
-                  <Redirect path="/" to="/welcome" exact />
-                  <PrivateRoute path="/users" component={Users}></PrivateRoute>
-                  <PrivateRoute path="/roles" component={Roles}></PrivateRoute>
-                  <PrivateRoute path="/rights" component={Rights}></PrivateRoute>
-                  <PrivateRoute path="/goods" component={GoodList} exact></PrivateRoute>
-                  <PrivateRoute path="/params" component={Params} exact></PrivateRoute>
-                  <PrivateRoute path="/categories" component={Categories} exact></PrivateRoute>
-                  <PrivateRoute path="/goods/add" component={AddGood}></PrivateRoute>
-                  <PrivateRoute path="/goods/edit/:goods_id" component={EditGood}></PrivateRoute>
-                  <PrivateRoute path="/orders" component={OrderList}></PrivateRoute>
-                  <PrivateRoute path="/reports" component={Reports}></PrivateRoute>
+                  <Switch>
+                    <PrivateRoute path="/welcome" component={Welcome}></PrivateRoute>
+                    <Redirect path="/" to="/welcome" exact />
+                    <PrivateRoute path="/users" component={Users}></PrivateRoute>
+                    <PrivateRoute path="/roles" component={Roles}></PrivateRoute>
+                    <PrivateRoute path="/rights" component={Rights}></PrivateRoute>
+                    <PrivateRoute path="/goods" component={GoodList} exact></PrivateRoute>
+                    <PrivateRoute path="/params" component={Params} exact></PrivateRoute>
+                    <PrivateRoute path="/categories" component={Categories} exact></PrivateRoute>
+                    <PrivateRoute path="/goods/add" component={AddGood}></PrivateRoute>
+                    <PrivateRoute path="/goods/edit/:goods_id" component={EditGood}></PrivateRoute>
+                    <PrivateRoute path="/orders" component={OrderList}></PrivateRoute>
+                    <PrivateRoute path="/reports" component={Reports}></PrivateRoute>
+                  </Switch>
+                  <Route path="/users" component={Users}></Route>
                 </Switch>
-                <Route path="/users" component={Users}></Route>
-              </Switch>
+              </Suspense>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>Ant Design ©2018 Created by Ant UED</Footer>
-          <BackTop style={{right:"10px"}}/>
+          <BackTop style={{ right: "10px" }} />
         </Layout>
       </Layout>
     );

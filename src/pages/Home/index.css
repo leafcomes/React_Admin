@@ -19,6 +19,9 @@
 .site-layout-background{
   background-color: white;
 }
+.site-layout-background .site-spin{
+  text-align: right;
+}
 .site-header {
   z-index: 99;
   position: fixed;
@@ -33,7 +36,8 @@
   font-weight: bolder;
   font-size: 20px;
   padding: 8px;
-  background: linear-gradient(135deg,#ffffff,#ece9e6);
+  /* background: linear-gradient(135deg,#ffffff,#ece9e6); */
+  background: linear-gradient(135deg,#eef0f3,white)
 }
 .logo{
   line-height: 0;
