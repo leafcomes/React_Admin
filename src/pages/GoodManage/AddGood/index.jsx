@@ -21,7 +21,6 @@ import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import Editor from "../../../components/Editor";
 import { Link } from "react-router-dom";
-
 const { Step } = Steps;
 const { TabPane } = Tabs;
 
@@ -33,9 +32,7 @@ export default class AddGood extends Component {
     goods_price: [{ required: true, message: "请输入一组数字" }],
     goods_weight: [{ required: true, message: "请输一组数字" }],
     goods_number: [{ required: true, message: "请输入一组数字" }],
-    goods_cat: [
-      { required: true, message: "请选择商品分类，目前仅只支持三级分类" },
-    ],
+    goods_cat: [{ required: true, message: "请选择商品分类，目前仅只支持三级分类" }],
   };
   state = {
     // 当前步骤条和标签页所处位置
@@ -154,8 +151,7 @@ export default class AddGood extends Component {
       }
       // 响应数据的动态参数列表为以逗号分隔的字符串
       res.data.forEach((item) => {
-        item.attr_vals =
-          item.attr_vals.length === 0 ? [] : item.attr_vals.split(",");
+        item.attr_vals = item.attr_vals.length === 0 ? [] : item.attr_vals.split(",");
       });
       this.setState({ defaultDynamicParams: res.data });
     } catch (error) {
@@ -211,10 +207,7 @@ export default class AddGood extends Component {
           const { data: res } = await axios.post("goods", {
             ...value,
             pics: this.state.addGoodForm.pics,
-            attrs: [
-              ...this.state.inputStaticAttributes,
-              ...this.state.checkedDynamicParams,
-            ],
+            attrs: [...this.state.inputStaticAttributes, ...this.state.checkedDynamicParams],
           });
           if (res.meta.status !== 201) {
             return message.error("添加商品失败！");
@@ -246,10 +239,7 @@ export default class AddGood extends Component {
             <Step title="商品内容"></Step>
             <Step title="完成"></Step>
           </Steps>
-          <Form
-            ref={this.addGoodFormRef}
-            initialValues={this.state.addGoodForm}
-          >
+          <Form ref={this.addGoodFormRef} initialValues={this.state.addGoodForm}>
             <Tabs
               tabPosition="left"
               onTabClick={this.onTabClick}
@@ -281,24 +271,14 @@ export default class AddGood extends Component {
                   name="goods_weight"
                   rules={this.addGoodFormRules.goods_weight}
                 >
-                  <InputNumber
-                    min="1"
-                    keyboard
-                    addonAfter="克"
-                    className="w100p"
-                  />
+                  <InputNumber min="1" keyboard addonAfter="克" className="w100p" />
                 </Form.Item>
                 <Form.Item
                   label="商品数量"
                   name="goods_number"
                   rules={this.addGoodFormRules.goods_number}
                 >
-                  <InputNumber
-                    min="1"
-                    keyboard
-                    addonAfter="个"
-                    className="w100p"
-                  />
+                  <InputNumber min="1" keyboard addonAfter="个" className="w100p" />
                 </Form.Item>
                 <Form.Item
                   label="商品分类"
@@ -337,22 +317,14 @@ export default class AddGood extends Component {
                           key={param.attr_id}
                           className="w100p"
                           onChange={(checkedValues) => {
-                            this.updateCheckedDynamicParams(
-                              checkedValues,
-                              index,
-                              param.attr_id
-                            );
+                            this.updateCheckedDynamicParams(checkedValues, index, param.attr_id);
                           }}
                         >
                           <Row key={param.attr_id}>
                             {param.attr_vals.map((attr, index) => {
                               return (
                                 <Col span={8} key={index}>
-                                  <Checkbox
-                                    value={attr}
-                                    key={index}
-                                    className=".m10"
-                                  >
+                                  <Checkbox value={attr} key={index} className=".m10">
                                     {attr}
                                   </Checkbox>
                                 </Col>
@@ -368,7 +340,7 @@ export default class AddGood extends Component {
               <TabPane tab="商品属性" key={2}>
                 {this.state.defaultStaticAttributes.length === 0 ? (
                   <Empty description="该商品类别目前暂无静态属性，可去分类参数栏目先创建">
-                    <Link to="params">点我跳转</Link>
+                    <Link to="/params">点我跳转</Link>
                   </Empty>
                 ) : (
                   this.state.defaultStaticAttributes.map((attribute, index) => {
@@ -404,7 +376,7 @@ export default class AddGood extends Component {
                   onChange={this.handleChange}
                   onRemove={this.handleRemove}
                 >
-                  <Button icon={<UploadOutlined />} type="primary">
+                  <Button icon={<UploadOutlined />} type="primary" >
                     上传图片
                   </Button>
                 </Upload>

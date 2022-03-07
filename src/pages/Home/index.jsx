@@ -157,7 +157,7 @@ export default class Home extends Component {
           </Header>
           <Content className="site-content">
             {this.props.location.pathname !== "/welcome" && (
-              <Breadcrumb style={{ marginBottom: "12px" }}>
+              <Breadcrumb style={{ margin: "12px 0" }}>
                 <Breadcrumb.Item>
                   <Link to="/">首页</Link>
                 </Breadcrumb.Item>

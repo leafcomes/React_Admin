@@ -1,6 +1,6 @@
 .loginBody{
   height: 100vh;
-  background-color: #2b4b6b ;
+  background: linear-gradient(135deg,#97abff,#123597);
   
 }
 .loginContainer{

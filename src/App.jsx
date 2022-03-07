@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route,Switch,Redirect} from 'react-router-dom';
+import {Route,Switch} from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
 import Home from './pages/Home';

@@ -21,6 +21,7 @@ import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import Editor from "../../../components/Editor";
 import { Link } from "react-router-dom";
+import Marquee from "react-fast-marquee";
 
 const { Step } = Steps;
 const { TabPane } = Tabs;
@@ -33,9 +34,7 @@ export default class EditGood extends Component {
     goods_price: [{ required: true, message: "请输入一组数字" }],
     goods_weight: [{ required: true, message: "请输一组数字" }],
     goods_number: [{ required: true, message: "请输入一组数字" }],
-    goods_cat: [
-      { required: true, message: "请选择商品分类，目前仅只支持三级分类" },
-    ],
+    goods_cat: [{ required: true, message: "请选择商品分类，目前仅只支持三级分类" }],
   };
   state = {
     // 当前步骤条和标签页所处位置
@@ -121,19 +120,20 @@ export default class EditGood extends Component {
     // 2. 将图片信息对象，push 到pics数组中
     this.state.editGoodForm.pics.push(picInfo);
   };
-  handleRemove = async(file) => {
+  handleRemove = async (file) => {
     try {
       // 1. 获取将要删除的图片的ID
       const { pics_id } = file;
-      this.state.editGoodForm.pics = this.state.editGoodForm.pics.filter(
-        (pic) => {
-          return pic.pics_id !== pics_id;
-        }
+      this.state.editGoodForm.pics = this.state.editGoodForm.pics.filter((pic) => {
+        return pic.pics_id !== pics_id;
+      });
+      const { data: res } = await axios.put(
+        `goods/${this.state.goods_id}/pics`,
+        this.state.editGoodForm.pics
       );
-      const {data:res} = await axios.put(`goods/${this.state.goods_id}/pics`,this.state.editGoodForm.pics)
-      
-      if(res.meta.status !==200){
-        return message.error("删除失败")
+
+      if (res.meta.status !== 200) {
+        return message.error("删除失败");
       }
     } catch (error) {
       message.error(error.message);
@@ -163,7 +163,6 @@ export default class EditGood extends Component {
   };
   // 将表单数据处理为editGoodForm的形式
   initEditGoodForm(formData) {
-    
     let {
       goods_cat,
       goods_name,
@@ -224,7 +223,6 @@ export default class EditGood extends Component {
       uploadedPics,
     });
     this.editGoodFormRef.current.setFieldsValue(editGoodForm);
-    
   }
   getCateList = async () => {
     try {
@@ -252,8 +250,7 @@ export default class EditGood extends Component {
       }
       // 响应数据的动态参数列表为以逗号分隔的字符串
       res.data.forEach((item) => {
-        item.attr_vals =
-          item.attr_vals.length === 0 ? [] : item.attr_vals.split(",");
+        item.attr_vals = item.attr_vals.length === 0 ? [] : item.attr_vals.split(",");
       });
       this.setState({ defaultDynamicParams: res.data });
     } catch (error) {
@@ -310,22 +307,13 @@ export default class EditGood extends Component {
           const test = {
             ...value,
             pics: this.state.editGoodForm.pics,
-            attrs: [
-              ...this.state.inputStaticAttributes,
-              ...this.state.checkedDynamicParams,
-            ],
+            attrs: [...this.state.inputStaticAttributes, ...this.state.checkedDynamicParams],
           };
-          const { data: res } = await axios.put(
-            `goods/${this.state.goods_id}`,
-            {
-              ...value,
-              pics: this.state.editGoodForm.pics,
-              attrs: [
-                ...this.state.inputStaticAttributes,
-                ...this.state.checkedDynamicParams,
-              ],
-            }
-          );
+          const { data: res } = await axios.put(`goods/${this.state.goods_id}`, {
+            ...value,
+            pics: this.state.editGoodForm.pics,
+            attrs: [...this.state.inputStaticAttributes, ...this.state.checkedDynamicParams],
+          });
           if (res.meta.status !== 200) {
             return message.error("编辑商品失败！");
           }
@@ -363,10 +351,7 @@ export default class EditGood extends Component {
             <Step title="商品内容"></Step>
             <Step title="完成"></Step>
           </Steps>
-          <Form
-            ref={this.editGoodFormRef}
-            initialValues={this.state.editGoodForm}
-          >
+          <Form ref={this.editGoodFormRef} initialValues={this.state.editGoodForm}>
             <Tabs
               tabPosition="left"
               onTabClick={this.onTabClick}
@@ -398,24 +383,14 @@ export default class EditGood extends Component {
                   name="goods_weight"
                   rules={this.editGoodFormRules.goods_weight}
                 >
-                  <InputNumber
-                    min="1"
-                    keyboard
-                    addonAfter="克"
-                    className="w100p"
-                  />
+                  <InputNumber min="1" keyboard addonAfter="克" className="w100p" />
                 </Form.Item>
                 <Form.Item
                   label="商品数量"
                   name="goods_number"
                   rules={this.editGoodFormRules.goods_number}
                 >
-                  <InputNumber
-                    min="1"
-                    keyboard
-                    addonAfter="个"
-                    className="w100p"
-                  />
+                  <InputNumber min="1" keyboard addonAfter="个" className="w100p" />
                 </Form.Item>
                 <Form.Item
                   label="商品分类"
@@ -456,22 +431,14 @@ export default class EditGood extends Component {
                           key={param.attr_id}
                           className="w100p"
                           onChange={(checkedValues) => {
-                            this.updateCheckedDynamicParams(
-                              checkedValues,
-                              index,
-                              param.attr_id
-                            );
+                            this.updateCheckedDynamicParams(checkedValues, index, param.attr_id);
                           }}
                         >
                           <Row key={param.attr_id}>
                             {param.attr_vals.map((attr, index) => {
                               return (
                                 <Col span={8} key={index}>
-                                  <Checkbox
-                                    value={attr}
-                                    key={index}
-                                    className=".m10"
-                                  >
+                                  <Checkbox value={attr} key={index} className=".m10">
                                     {attr}
                                   </Checkbox>
                                 </Col>
@@ -498,9 +465,7 @@ export default class EditGood extends Component {
                         key={attribute.attr_id}
                       >
                         <Input
-                          defaultValue={
-                            this.state.onwStaticAttributes[attribute.attr_id]
-                          }
+                          defaultValue={this.state.onwStaticAttributes[attribute.attr_id]}
                           onChange={(e) => {
                             this.updateInputStaticAttributes(
                               e.target.value,
